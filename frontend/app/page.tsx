@@ -15,6 +15,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { FloatingNavbar } from "@/components/FloatingNavbar"; // Assuming you have a Navbar component
 // Removed: import type { ReactNode } from 'react';
 import { MaskedImage } from "@/components/ui/masked-image"; // Assuming you have a MaskedImage component
+import { CommunityModal, CommunityDetails } from '@/components/CommunityModal';
 
 // Animation variants
 const sectionVariants = {
@@ -102,19 +103,36 @@ const Counter = ({ number, label }) => {
 
 
 // CommunityCard
-const CommunityCard = ({ icon, title, description }) => {
+// CommunityCard Component (either in its own file or within page.tsx)
+
+const CommunityCard = ({ icon, title, description, onClick }) => {
     return (
         <motion.div
-            variants={itemVariants}
+            variants={itemVariants} // Ensure itemVariants is defined/imported
             whileHover={{ y: -8, scale: 1.03, transition: { duration: 0.2, ease: "easeOut" } }}
-            className="h-full"
+            className="h-full group" // Added group here for hover effect on text
+            onClick={onClick}
+            id='community-card' // Note: Using the same ID for all cards is invalid HTML, use unique keys in map instead
         >
-            <Card className="text-center p-6 border border-border bg-card hover:border-primary/50 transition-all duration-300 h-full flex flex-col items-center justify-start group overflow-hidden shadow-sm hover:shadow-md">
+            {/* Applied flex-grow to CardContent equivalent (padding div) to push text to bottom */}
+            <Card className="text-center p-6 border border-border bg-card hover:border-primary/50 transition-all duration-300 h-full flex flex-col items-center justify-start overflow-hidden shadow-sm hover:shadow-md">
+                
+                {/* Icon */}
                 <div className="mb-4 text-primary transform group-hover:scale-110 transition-transform duration-300">
                     {icon}
                 </div>
+                
+                {/* Title */}
                 <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">{title}</h3>
-                <p className="text-muted-foreground text-sm">{description}</p>
+                
+                {/* Description */}
+                <p className="text-muted-foreground text-sm mb-0">{description}</p> 
+                 
+
+                {/* Click to know more text */}
+                <p className="text-xs text-muted-foreground/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-auto pt-2 border-t border-transparent group-hover:border-border/30"> 
+                   Click to know more 
+                </p>
             </Card>
         </motion.div>
     );
@@ -122,6 +140,20 @@ const CommunityCard = ({ icon, title, description }) => {
 
 
 export default function Home() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedCommunity, setSelectedCommunity] = useState<CommunityDetails | null>(null);
+
+    const handleCommunityClick = (community: CommunityDetails) => {
+        console.log("Community card clicked:", community.title);
+        setSelectedCommunity(community);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        // Optionally reset selectedCommunity after a delay to allow fade-out
+        // setTimeout(() => setSelectedCommunity(null), 300);
+    }
     const scrollToJoin = () => {
         document.getElementById('join-form')?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -140,15 +172,55 @@ export default function Home() {
         { question: "How do I start my own community?", answer: "Reach out to us with your idea, and we'll help you gather interested members and set up the necessary resources." }
     ];
 
-    const communities = [
-        { icon: <Music size={36} />, title: "Cultural", description: "Music, Drama, Art, Dance, Literature" },
-        { icon: <Cpu size={36} />, title: "Technical", description: "Coding, Electronics, Robotics, ML" },
-        { icon: <Goal size={36} />, title: "Sports", description: "Football, Cricket, Chess, Indoor games" },
-        { icon: <TrendingUp size={36} />, title: "Growth", description: "Debate, MUNs, Linguistics, Public Speaking" },
-        { icon: <Paintbrush size={36} />, title: "Creative Arts", description: "Painting, Photography, Digital Design" },
-        { icon: <Sprout size={36} />, title: "Environmental", description: "Gardening, Sustainability, Campus Greening" },
-        { icon: <BookOpen size={36} />, title: "Academic", description: "Study groups, Research, Publication" },
-        { icon: <Gamepad2 size={36} />, title: "Gaming", description: "Esports, Board Games, Game Dev" },
+    const communities: CommunityDetails[] = [ // Use CommunityDetails type
+        {
+            icon: <Music size={36} />, title: "Cultural", description: "Music, Drama, Art, Dance, Literature",
+            longDescription: "Explore your artistic side! From jamming sessions and theatre workshops to art exhibitions and literary discussions, the Cultural Community is the hub for creative expression on campus.",
+            meetingInfo: "Fridays 5:00 PM @ Common Room",
+            coordinator: "Priya Sharma"
+        },
+        {
+            icon: <Cpu size={36} />, title: "Technical", description: "Coding, Electronics, Robotics, ML",
+            longDescription: "Dive into the world of technology. Participate in coding competitions, build cool robotics projects, explore machine learning, and collaborate on innovative tech solutions.",
+            meetingInfo: "Wednesdays 6:00 PM @ Lab 101",
+            coordinator: "Rahul Banerjee"
+        },
+        {
+            icon: <Goal size={36} />, title: "Sports", description: "Football, Cricket, Chess, Indoor games",
+            longDescription: "Get active and join fellow sports enthusiasts! We organize regular matches, tournaments, and practice sessions for various outdoor and indoor sports.",
+            meetingInfo: "Daily Evenings @ Campus Field / Indoor Hall",
+            coordinator: "Vikram Singh"
+        },
+        {
+            icon: <TrendingUp size={36} />, title: "Growth", description: "Debate, MUNs, Linguistics, Public Speaking",
+            longDescription: "Sharpen your mind and communication skills. Engage in stimulating debates, participate in Model United Nations, explore linguistics, and practice public speaking.",
+            meetingInfo: "Tuesdays 4:30 PM @ Seminar Hall",
+            coordinator: "Ananya Gupta"
+        },
+        {
+            icon: <Paintbrush size={36} />, title: "Creative Arts", description: "Painting, Photography, Digital Design",
+            longDescription: "Unleash your visual creativity. Join workshops on painting techniques, go on photo walks, learn digital design tools, and showcase your work.",
+            meetingInfo: "Thursdays 5:00 PM @ Art Room",
+            coordinator: "Sameer Khan"
+        },
+        {
+            icon: <Sprout size={36} />, title: "Environmental", description: "Gardening, Sustainability, Campus Greening",
+            longDescription: "Passionate about sustainability? Get involved in campus greening initiatives, learn about sustainable practices, and contribute to a greener campus environment.",
+            meetingInfo: "Saturdays 10:00 AM @ Campus Garden",
+            coordinator: "Neha Reddy"
+        },
+        {
+            icon: <BookOpen size={36} />, title: "Academic", description: "Study groups, Research, Publication",
+            longDescription: "Collaborate with peers on academic pursuits. Form study groups for challenging subjects, participate in research projects, and explore opportunities for academic writing.",
+            meetingInfo: "Varies by subject/group @ Library/Dept.",
+            coordinator: "Faculty Advisor TBD"
+        },
+        {
+            icon: <Gamepad2 size={36} />, title: "Gaming", description: "Esports, Board Games, Game Dev",
+            longDescription: "Connect with fellow gamers! Participate in esports tournaments, enjoy casual board game nights, or even try your hand at game development.",
+            meetingInfo: "Bi-weekly Fridays 7:00 PM @ Common Room",
+            coordinator: "Aarav Patel"
+        },
     ];
 
     const galleryItems = [
@@ -377,17 +449,15 @@ export default function Home() {
                 className="py-16 md:py-24 px-6 max-w-6xl mx-auto border-t border-border bg-background"
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.1 }} // Reduced amount slightly
                 variants={sectionVariants}
                 id='communities-section'
             >
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12 font-display">Our Communities</h2>
                 <motion.div
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }}
-                    variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+                    // Animation props moved to parent section, inherit staggering from variants
+                    variants={{ visible: { transition: { staggerChildren: 0.08 } } }} // Slightly faster stagger
                 >
                     {communities.map((community, index) => (
                         <CommunityCard
@@ -395,6 +465,7 @@ export default function Home() {
                             icon={community.icon}
                             title={community.title}
                             description={community.description}
+                            onClick={() => handleCommunityClick(community)} // Added onClick
                         />
                     ))}
                 </motion.div>
@@ -644,6 +715,13 @@ export default function Home() {
                     </div>
                 </div>
             </footer>
+            {selectedCommunity && (
+  <CommunityModal
+    isOpen={isModalOpen}
+    onClose={closeModal}
+    community={selectedCommunity}
+  />
+)}
         </div>
     );
 }

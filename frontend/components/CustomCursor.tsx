@@ -48,7 +48,7 @@ export function CustomCursor() {
 
             // Check if hovering over a specific element
             const target = e.target as HTMLElement;
-            if (target.closest('a, button, [data-cursor-hoverable="true"]')) {
+            if (target.closest('a, button, [data-cursor-hoverable="true"], #community-card')) {
                 setCursorVariant("linkHover");
             } else {
                 setCursorVariant("default");
