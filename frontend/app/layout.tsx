@@ -18,6 +18,9 @@ const ptSans = PT_Sans({
 export const metadata: Metadata = {
   title: "SL Communities | JU - Reimagine Campus Life", // Updated Title
   description: "Join vibrant student communities at Jadavpur University's Salt Lake Campus. Get involved in cultural, technical, sports, and growth activities.", // Updated Description
+  icons: {
+    icon: "/favicon.ico", // or use png, svg, etc.
+  },  
 };
 
 export default function RootLayout({
