@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "SL Communities | JU - Reimagine Campus Life", // Updated Title
   description: "Join vibrant student communities at Jadavpur University's Salt Lake Campus. Get involved in cultural, technical, sports, and growth activities.", // Updated Description
   icons: {
-    icon: "/favicon.ico", // or use png, svg, etc.
+    icon: "/favicon.png", // or use png, svg, etc.
   },  
 };
 
