@@ -12,6 +12,7 @@ import {
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { FloatingNavbar } from "@/components/FloatingNavbar"; // Assuming you have a Navbar component
+import type { ReactNode } from 'react';
 
 // Animation variants
 const sectionVariants = {
@@ -25,7 +26,7 @@ const itemVariants = {
 };
 
 // ParallaxSection
-const ParallaxSection = ({ children }) => {
+const ParallaxSection: React.FC<{ children: ReactNode }> = ({ children }) => {
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({
         target: ref,
