@@ -176,3 +176,22 @@
     pointer-events: none;
   }
 }
+
+
+
+
+body, html {
+  /* Hide the default system cursor */
+  /* On mobile, the cursor won't be hidden by default, which is usually desired */
+  @media (hover: hover) and (pointer: fine) { /* Apply only for devices supporting hover and fine pointers */
+    cursor: none;
+  }
+}
+
+/* Optional: Ensure interactive elements don't force a default cursor */
+/* This helps if the custom cursor needs to change ON these elements */
+a, button, input, textarea, select, [data-cursor-hoverable="true"] {
+   @media (hover: hover) and (pointer: fine) {
+      cursor: none;
+   }
+}

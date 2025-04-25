@@ -1,6 +1,7 @@
 "use client"; // Needed for Framer Motion and event handlers
 
 import React, { useState, useRef, useEffect } from 'react';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import {
@@ -13,6 +14,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { FloatingNavbar } from "@/components/FloatingNavbar"; // Assuming you have a Navbar component
 // Removed: import type { ReactNode } from 'react';
+import { MaskedImage } from "@/components/ui/masked-image"; // Assuming you have a MaskedImage component
 
 // Animation variants
 const sectionVariants = {
@@ -165,47 +167,83 @@ export default function Home() {
             <FloatingNavbar />
 
             {/* Hero Section */}
-            <ParallaxSection>
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-orange-100 to-amber-200 opacity-80" ></div>
-                <div className="absolute inset-0 backdrop-blur-sm bg-background/30"></div>
-                <div className="relative z-10 flex items-center justify-center h-full px-4">
-                    <motion.div
-                        className="max-w-4xl text-center"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        id='home-section'
-                    >
-                        <h1 className="text-4xl md:text-6xl font-bold text-primary mb-4 font-display tracking-tight">
-                            Reimagine Campus Life at JU Salt Lake
-                        </h1>
-                        <p className="text-xl md:text-2xl text-foreground/80 mb-6">
-                            Small, vibrant communities. Big, meaningful impact.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-2 mb-8">
-                            {["Cultural", "Technical", "Sports", "Growth", "Creative"].map((item, i) => (
-                                <motion.span
-                                    key={i}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.4 + (i * 0.1) }}
-                                    className="bg-primary/10 px-3 py-1 rounded-full text-primary/80 text-sm font-medium"
-                                >
-                                    {item}
-                                </motion.span>
-                            ))}
-                        </div>
-                        <Button
-                            size="lg"
-                            onClick={scrollToJoin}
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground mx-auto group"
-                        >
-                            Join the Movement
-                            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                    </motion.div>
-                </div>
-            </ParallaxSection>
+            {/* Hero Section with Better Contrast */}
+<section className="relative h-screen overflow-hidden" id="home-section">
+  {/* Background Image Layer */}
+  <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80 z-10"></div>
+    <motion.div
+      initial={{ opacity: 0, scale: 1.05 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+      className="w-full h-full"
+    >
+      <MaskedImage 
+        src="/images/jusl-h1.png" // Replace with your campus image path
+        alt="JU Salt Lake Campus" 
+        width={900} 
+        height={900} 
+        variant="shape1"
+        className="w-full h-full object-cover"
+      />
+    </motion.div>
+  </div>
+
+  {/* Content Layer - Positioned for better readability */}
+  <div className="relative z-20 flex flex-col h-full justify-center items-center px-4 md:px-6">
+    <div className="max-w-4xl text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-4 font-display tracking-tight drop-shadow-sm">
+          Reimagine Campus Life at JU Salt Lake
+        </h1>
+        
+        <p className="text-xl md:text-2xl text-foreground/90 mb-8 drop-shadow-sm">
+          Small, vibrant communities. Big, meaningful impact.
+        </p>
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        className="mb-8"
+      >
+        <div className="flex flex-wrap justify-center gap-3">
+          {["Cultural", "Technical", "Sports", "Growth", "Creative"].map((item, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 + (i * 0.1) }}
+              className="bg-primary text-primary-foreground px-4 py-1.5 rounded-full text-sm font-medium shadow-sm"
+            >
+              {item}
+            </motion.span>
+          ))}
+        </div>
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.7 }}
+      >
+        <Button
+          size="lg"
+          onClick={scrollToJoin}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-6 shadow-md hover:shadow-lg transition-all duration-300 group"
+        >
+          Join the Movement
+          <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+        </Button>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
             {/* Stats Counter Section */}
             <motion.section

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import { PT_Sans } from "next/font/google";
 import "./globals.css"; // Ensure your globals.css includes Matsu theme variables and Tailwind directives
+import { CustomCursor } from "@/components/CustomCursor"; // Import your custom cursor component
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -32,6 +33,7 @@ export default function RootLayout({
         {/* This div is crucial for the Matsu theme's texture */}
         <div className="texture" />
         {/* Ensure the main content is relatively positioned to appear above the texture */}
+        <CustomCursor />
         <main className="relative z-10">{children}</main>
       </body>
     </html>
