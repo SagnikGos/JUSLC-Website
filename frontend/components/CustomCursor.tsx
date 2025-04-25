@@ -5,6 +5,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 // Updated cursor variants with more vibrant colors for better visibility
+// Added a new "textSelection" variant
 const cursorVariants = {
   default: {
     scale: 1,
@@ -20,85 +21,100 @@ const cursorVariants = {
     borderWidth: "2px",
     transition: { type: 'spring', stiffness: 400, damping: 20 },
   },
+  textSelection: {
+    scale: 1.2,
+    backgroundColor: "rgba(130, 150, 70, 0.3)", // Blue tint for text selection
+    borderColor: "rgb(90, 130, 50)", // Blue border
+    borderWidth: "2px",
+    transition: { type: 'spring', stiffness: 500, damping: 25 },
+  },
 };
 
 // Updated dot variants with more visible colors
+// Added a new "textSelection" variant
 const dotVariants = {
-    default: {
-        scale: 1,
-        backgroundColor: "rgb(60, 100, 60)", // Solid green for high contrast
-        transition: { type: 'spring', stiffness: 800, damping: 40 },
-    },
-    linkHover: {
-        scale: 0.6,
-        backgroundColor: "rgb(130, 150, 70)", // Bright green
-        transition: { type: 'spring', stiffness: 500, damping: 25 },
-    },
-}
+  default: {
+    scale: 1,
+    backgroundColor: "rgb(60, 100, 60)", // Solid green for high contrast
+    transition: { type: 'spring', stiffness: 800, damping: 40 },
+  },
+  linkHover: {
+    scale: 0.6,
+    backgroundColor: "rgb(130, 150, 70)", // Bright green
+    transition: { type: 'spring', stiffness: 500, damping: 25 },
+  },
+  textSelection: {
+    scale: 0.8,
+    backgroundColor: "rgb(130, 150, 70)", // Blue dot for text selection
+    transition: { type: 'spring', stiffness: 600, damping: 30 },
+  },
+};
 
 export function CustomCursor() {
-    const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-    const [cursorVariant, setCursorVariant] = useState("default");
-    const controls = useAnimation();
-    const dotControls = useAnimation();
+  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
+  const [cursorVariant, setCursorVariant] = useState("default");
+  const controls = useAnimation();
+  const dotControls = useAnimation();
 
-    useEffect(() => {
-        const mouseMove = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+  useEffect(() => {
+    const mouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
 
-            // Check if hovering over a specific element
-            const target = e.target as HTMLElement;
-            if (target.closest('a, button, [data-cursor-hoverable="true"], #community-card')) {
-                setCursorVariant("linkHover");
-            } else {
-                setCursorVariant("default");
-            }
-        };
+      // Check if hovering over a specific element
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-cursor-hoverable="true"], #community-card')) {
+        setCursorVariant("linkHover");
+      } else if (target.closest('#testimonials-section, #vision-card')) {
+        setCursorVariant("textSelection");
+      } else {
+        setCursorVariant("default");
+      }
+    };
 
-        window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mousemove", mouseMove);
 
-        return () => {
-            window.removeEventListener("mousemove", mouseMove);
-        };
-    }, []);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
+  }, []);
 
-    useEffect(() => {
-        controls.start(cursorVariant);
-        dotControls.start(cursorVariant);
-    }, [cursorVariant, controls, dotControls]);
+  useEffect(() => {
+    controls.start(cursorVariant);
+    dotControls.start(cursorVariant);
+  }, [cursorVariant, controls, dotControls]);
 
-    return (
-        <>
-            {/* Outer Ring */}
-            <motion.div
-                className={cn(
-                    "fixed top-0 left-0 rounded-full border-2 pointer-events-none z-[9999]",
-                    "w-10 h-10", // Slightly larger for better visibility
-                    "hidden md:block"
-                )}
-                style={{
-                    translateX: mousePosition.x - 20, // Adjusted for new size
-                    translateY: mousePosition.y - 20, // Adjusted for new size
-                }}
-                variants={cursorVariants}
-                animate={controls}
-                initial="default"
-            />
-            {/* Inner Dot */}
-            <motion.div
-                className={cn(
-                    "fixed top-0 left-0 rounded-full pointer-events-none z-[9999]",
-                    "w-3 h-3", // Slightly larger dot for better visibility
-                    "hidden md:block"
-                )}
-                style={{
-                    translateX: mousePosition.x - 6, // Adjusted for new size
-                    translateY: mousePosition.y - 6, // Adjusted for new size
-                }}
-                variants={dotVariants}
-                animate={dotControls}
-                initial="default"
-            />
-        </>
-    );
+  return (
+    <>
+      {/* Outer Ring */}
+      <motion.div
+        className={cn(
+          "fixed top-0 left-0 rounded-full border-2 pointer-events-none z-[9999]",
+          "w-10 h-10", // Slightly larger for better visibility
+          "hidden md:block"
+        )}
+        style={{
+          translateX: mousePosition.x - 20, // Adjusted for new size
+          translateY: mousePosition.y - 20, // Adjusted for new size
+        }}
+        variants={cursorVariants}
+        animate={controls}
+        initial="default"
+      />
+      {/* Inner Dot */}
+      <motion.div
+        className={cn(
+          "fixed top-0 left-0 rounded-full pointer-events-none z-[9999]",
+          "w-3 h-3", // Slightly larger dot for better visibility
+          "hidden md:block"
+        )}
+        style={{
+          translateX: mousePosition.x - 6, // Adjusted for new size
+          translateY: mousePosition.y - 6, // Adjusted for new size
+        }}
+        variants={dotVariants}
+        animate={dotControls}
+        initial="default"
+      />
+    </>
+  );
 }

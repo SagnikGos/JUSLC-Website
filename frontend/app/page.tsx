@@ -382,6 +382,7 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.2 }}
                 variants={sectionVariants}
                 id='vision-section'
+                
             >
                 <div className="max-w-6xl mx-auto">
                     <h2 className="text-3xl md:text-4xl font-bold text-center text-primary mb-12 font-display">Our Vision</h2>
@@ -393,7 +394,7 @@ export default function Home() {
                         variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
                     >
                         {/* Item 1 */}
-                        <motion.div className="md:col-span-2" variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div className="md:col-span-2" variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Lightbulb size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Activate the Campus</h3>
@@ -401,7 +402,7 @@ export default function Home() {
                             </Card>
                         </motion.div>
                         {/* Item 2 */}
-                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Users size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Empower Students</h3>
@@ -409,7 +410,7 @@ export default function Home() {
                             </Card>
                         </motion.div>
                         {/* Item 3 */}
-                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Share2 size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Connect Departments</h3>
@@ -417,7 +418,7 @@ export default function Home() {
                             </Card>
                         </motion.div>
                         {/* Item 4 */}
-                        <motion.div className="md:col-span-2" variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div className="md:col-span-2" variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Calendar size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Regular Activities</h3>
@@ -425,7 +426,7 @@ export default function Home() {
                             </Card>
                         </motion.div>
                         {/* Item 5 */}
-                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Coffee size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Build Connections</h3>
@@ -433,7 +434,7 @@ export default function Home() {
                             </Card>
                         </motion.div>
                         {/* Item 6 */}
-                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                        <motion.div variants={itemVariants} whileHover={{ scale: 1.03, transition: { duration: 0.2 } }} id='vision-card'>
                             <Card className="h-full p-6 bg-card border border-border hover:border-primary/40 transition-all duration-300 flex flex-col shadow-sm hover:shadow-md">
                                 <Book size={36} className="mb-3 text-primary" />
                                 <h3 className="text-xl font-bold mb-2 text-foreground">Skill Development</h3>
@@ -533,12 +534,14 @@ export default function Home() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.1 }}
+                    
                 >
                     {testimonials.map((testimonial, index) => (
                         <motion.div
                             key={index}
                             variants={itemVariants}
                             whileHover={{ y: -5, scale: 1.02, transition: { duration: 0.2 } }}
+                            id='testimonials-section'
                         >
                             <Card className="h-full bg-card border-border hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-md">
                                 <CardContent className="pt-6">
