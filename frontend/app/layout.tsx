@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import { PT_Sans } from "next/font/google";
 import "./globals.css"; // Ensure your globals.css includes Matsu theme variables and Tailwind directives
 import { CustomCursor } from "@/components/CustomCursor"; // Import your custom cursor component
+import { GlobalStyles } from "@/components/ScrollBarStyle";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -23,6 +24,10 @@ export const metadata: Metadata = {
   },  
 };
 
+
+
+// You can also create a dedicated component for global styling if you prefer:
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,6 +42,7 @@ export default function RootLayout({
         <div className="texture" />
         {/* Ensure the main content is relatively positioned to appear above the texture */}
         <CustomCursor />
+        <GlobalStyles /> {/* Include global scrollbar styles */}
         <main className="relative z-10">{children}</main>
       </body>
     </html>
